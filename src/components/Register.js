@@ -4,16 +4,15 @@ import "./Register.css";
 import Input from "./Input";
 
 const FORM_INPUTS = [
-  { label: "Nome Completo", id: "username", name: "username", type: "text" },
-  { label: "Número de Identificação Fiscal", id: "idFiscal", name: "idFiscal", type: "text" },
-  { label: "Password", id: "password", name: "password", type: "password" },
-  { label: "Confirmar Password", id: "confirmPassword", name: "confirmPassword", type: "password" },
+  { label: "Nome Completo:", id: "username", name: "username", type: "text" },
+  { label: "Número de Identificação Fiscal:", id: "idFiscal", name: "idFiscal", type: "text" },
+  { label: "Password:", id: "password", name: "password", type: "password" },
+  { label: "Confirmar Password:", id: "confirmPassword", name: "confirmPassword", type: "password" },
 ];
 
 const Register = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Adicione lógica para processar o formulário aqui, se necessário
   };
 
   return (
