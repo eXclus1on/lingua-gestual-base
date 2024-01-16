@@ -1,11 +1,18 @@
-import React from 'react';
-import Register from './components/Register';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Register from "./pages/Register/Register";
+import TermsOfUsePage from "./pages/TermsOfUsePage/TermsOfUsePage";
 
 function App() {
   return (
     <div className="App">
-    
-      <Register />
+
+      <Router>
+        <Routes>
+          <Route path="/register" exact component={Register} />
+          <Route path="/terms" element={<TermsOfUsePage></TermsOfUsePage>}/>
+        </Routes>
+      </Router>
     </div>
   );
 }

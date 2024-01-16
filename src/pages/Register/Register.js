@@ -1,7 +1,7 @@
 import React from "react";
-import logo from "d:/_Front-end-project/lingua-gestual-base/src/images/ivling.png";
+import logo from "../../images/ivling.png";
 import "./Register.css";
-import Input from "./Input";
+import Input from "../../components/Input";
 
 const FORM_INPUTS = [
   { label: "Nome Completo:", id: "username", name: "username", type: "text" },
@@ -11,7 +11,6 @@ const FORM_INPUTS = [
     name: "idFiscal",
     type: "text",
   },
-
   { label: "Password:", id: "password", name: "password", type: "password" },
   {
     label: "Confirmar Password:",
@@ -34,14 +33,13 @@ const Register = () => {
           {FORM_INPUTS.map((entry, index) => {
             const { label, ...rest } = entry;
             return (
-              <Input {...rest} key={`${index}`}>
-                <br></br>
-                {label}
-                <br></br>
-              </Input>
+              <div key={index}>
+                <label htmlFor={rest.id}>{label}</label>
+                <Input {...rest} />
+              </div>
             );
           })}
-          <br></br>
+          <br />
           <button className="button-submit" type="submit">
             Submeter
           </button>
