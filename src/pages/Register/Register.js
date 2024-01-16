@@ -27,7 +27,9 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      <img src={logo} alt="Logo" className="logo" />
+      <div className="logo-container">
+        <img src={logo} alt="Logo" className="logo" />
+      </div>
       <div className="wrapper">
         <form onSubmit={handleSubmit}>
           {FORM_INPUTS.map((entry, index) => {
@@ -41,7 +43,7 @@ const Register = () => {
           })}
           <br />
           <button className="button-submit" type="submit">
-            Submeter
+            SUBMETER
           </button>
         </form>
       </div>

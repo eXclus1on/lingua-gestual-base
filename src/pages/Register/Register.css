@@ -1,12 +1,10 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-    padding: 0;
     background-color: #F5F7FB !important;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .wrapper {
@@ -15,15 +13,20 @@ body {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 450px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+
 }
 
-.logo {
-    width: 250px;
+.logo-container {
     margin-bottom: 20px;
-    margin-left: 115px;
+    display: flex;
+    justify-content: center;
+  }
+
+.logo {
+    width: auto;
+    height: auto;
+    padding-bottom: 20px;
+    
 }
 
 .form-group {

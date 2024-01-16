@@ -1,18 +1,46 @@
 .terms-container {
-    background-color: #F5F7FB;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150vh;
+    background-color: #F5F7FB !important;
+    margin-top: 20px;
   }
   
   .logo-container {
-    text-align: center;
+    margin-bottom: 20px;
+    padding: auto;
+    padding-top: 150px;
+  }
+  
+  .logo {
+    width: 250px; 
+    height: auto;
   }
   
   .terms-content {
-    margin-top: 20px;
+    text-align: justify;
+    margin-left: 250px;
+    margin-right: 250px;
+    line-height: 2;
+  }
+  
+  .titulo {
+    margin-bottom: 50px;
+    text-align: center;
   }
   
   .back-button-container {
+    background-color: #179cdf;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    width: 250px;
+    font-weight: bold;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 100px;
   }
   

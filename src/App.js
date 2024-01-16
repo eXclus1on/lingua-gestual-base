@@ -9,12 +9,12 @@ function App() {
 
       <Router>
         <Routes>
-          <Route path="/register" exact component={Register} />
+          <Route path="/register" element={<Register></Register>} />
           <Route path="/terms" element={<TermsOfUsePage></TermsOfUsePage>}/>
         </Routes>
       </Router>
     </div>
   );
-}
+};
 
 export default App;
