@@ -1,0 +1,50 @@
+.wrapper {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 450px;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  width: auto;
+  height: auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 410px;
+}
+
+.button-submit {
+  background-color: #179cdf;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 250px;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 80px;
+}
