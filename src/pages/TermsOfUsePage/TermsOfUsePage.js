@@ -60,10 +60,7 @@ const TermsOfUsePage = () => {
         </p>
       </div>
 
-      <button
-        className="back-button-container"
-        onClick={() => (window.location.href = "/login")}
-      >
+      <button className="back-button-container" onClick={() => (window.location.href = "/login")}>
         VOLTAR
       </button>
     </div>
