@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../images/ivling.png";
-import "./Register.css";
+import "../../assets/css/Styles.css"
 import Input from "../../components/Input";
 
 const FORM_INPUTS = [
@@ -11,6 +11,7 @@ const FORM_INPUTS = [
     name: "idFiscal",
     type: "text",
   },
+
   { label: "Password:", id: "password", name: "password", type: "password" },
   {
     label: "Confirmar Password:",
@@ -27,23 +28,22 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      <div className="logo-container">
-        <img src={logo} alt="Logo" className="logo" />
-      </div>
+      <img src={logo} alt="Logo" className="logo" />
       <div className="wrapper">
         <form onSubmit={handleSubmit}>
           {FORM_INPUTS.map((entry, index) => {
             const { label, ...rest } = entry;
             return (
-              <div key={index}>
-                <label htmlFor={rest.id}>{label}</label>
-                <Input {...rest} />
-              </div>
+              <Input {...rest} key={`${index}`}>
+                <br></br>
+                {label}
+                <br></br>
+              </Input>
             );
           })}
-          <br />
+          <br></br>
           <button className="button-submit" type="submit">
-            SUBMETER
+            Submeter
           </button>
         </form>
       </div>

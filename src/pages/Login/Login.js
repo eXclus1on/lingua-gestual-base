@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../images/ivling.png";
-import "./Login.css";
+import "../../assets/css/Styles.css"
 import Input from "../../components/Input";
 
 const FORM_INPUTS = [
@@ -11,7 +11,6 @@ const FORM_INPUTS = [
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Adicione a lógica de login aqui
   };
 
   return (

@@ -6,7 +6,13 @@ body {
     margin: 0;
     padding: 0;
     background-color: #F5F7FB !important;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Verdana, Geneva, Tahoma, sans-serif';
+}
+
+.container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .wrapper {
@@ -21,9 +27,9 @@ body {
 }
 
 .logo {
-    width: 250px;
+    width: auto;
+    height: auto;
     margin-bottom: 20px;
-    margin-left: 115px;
 }
 
 .form-group {
@@ -33,7 +39,6 @@ body {
 
 label {
     margin-bottom: 5px;
-    font-family: 'Nunito Sans', sans-serif;
     font-size: 14px;
 }
 

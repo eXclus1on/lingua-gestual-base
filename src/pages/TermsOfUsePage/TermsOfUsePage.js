@@ -1,6 +1,7 @@
 import React from "react";
 import "./TermsOfUsePage.css";
 import logo from "../../images/ivling.png";
+import { Link } from "react-router-dom";
 
 const TermsOfUsePage = () => {
   return (
@@ -60,8 +61,8 @@ const TermsOfUsePage = () => {
         </p>
       </div>
 
-      <button className="back-button-container" onClick={() => (window.location.href = "/login")}>
-        VOLTAR
+      <button className="back-button-container">
+        <Link to="/login">VOLTAR</Link>
       </button>
     </div>
   );
