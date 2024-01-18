@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../images/ivling.png";
-import "../../assets/css/Styles.css"
+import "../../assets/css/Styles.css";
 import Input from "../../components/Input";
 
 const FORM_INPUTS = [
@@ -27,8 +27,10 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <img src={logo} alt="Logo" className="logo" />
+    <div className="container">
+      <div className="logo-container">
+        <img src={logo} alt="Logo" className="logo" />
+      </div>
       <div className="wrapper">
         <form onSubmit={handleSubmit}>
           {FORM_INPUTS.map((entry, index) => {
@@ -42,8 +44,8 @@ const Register = () => {
             );
           })}
           <br></br>
-          <button className="button-submit" type="submit">
-            Submeter
+          <button className="button-container-login-register" type="submit">
+            SUBMETER
           </button>
         </form>
       </div>

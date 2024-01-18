@@ -4,8 +4,16 @@ import "../../assets/css/Styles.css"
 import Input from "../../components/Input";
 
 const FORM_INPUTS = [
-  { label: "Email:", id: "email", name: "email", type: "email" },
-  { label: "Password:", id: "password", name: "password", type: "password" },
+  { label: "Email:",
+  id: "email",
+  name: "email",
+  type: "email"
+  },
+  { label: "Password:",
+    id: "password",
+    name: "password",
+    type: "password"
+  },
 ];
 
 const Login = () => {
@@ -14,7 +22,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="container">
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo" />
       </div>
@@ -30,7 +38,7 @@ const Login = () => {
             );
           })}
           <br />
-          <button className="button-submit" type="submit">
+          <button className="button-container-login-register" type="submit">
             ENTRAR
           </button>
         </form>

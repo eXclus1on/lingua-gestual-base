@@ -1,18 +1,23 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    background-color: #F5F7FB !important;
-    font-family: 'Verdana, Geneva, Tahoma, sans-serif';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f7fb !important;
+  font-family: "Verdana, Geneva, Tahoma, sans-serif";
 }
 
 .container {
-    margin-bottom: 20px;
     display: flex;
     justify-content: center;
+  }
+
+.logo {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
 }
 
 .wrapper {
@@ -24,42 +29,36 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.logo {
-    width: auto;
-    height: auto;
-    margin-bottom: 20px;
-}
+  }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-    margin-bottom: 5px;
-    font-size: 14px;
+  margin-bottom: 5px;
+  font-size: 14px;
 }
 
 input[type="text"],
 input[type="password"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    width: 410px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 410px;
 }
 
-.button-submit {
-    background-color: #179cdf;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    width: 250px;
-    font-weight: bold;
-    font-size: 15px;
-    margin-left: 80px;
+.button-container-login-register {
+  background-color: #179cdf;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 250px;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 80px;
 }

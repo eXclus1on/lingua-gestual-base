@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const TermsOfUsePage = () => {
   return (
     <div className="terms-container">
-      <div className="logo-container">
+      <div className="top-logo">
         <img src={logo} alt="Logo" className="logo" />
       </div>
       <div className="terms-content">
@@ -60,10 +60,9 @@ const TermsOfUsePage = () => {
           Utilização, entre em contato conosco.
         </p>
       </div>
-
-      <button className="back-button-container">
-        <Link to="/login">VOLTAR</Link>
-      </button>
+      <Link to="/login">
+        <button className="button-container">VOLTAR</button>
+      </Link>
     </div>
   );
 };
