@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
-//import logo from "../../images/ivling.png";
-import "./RecordVideo.css";
+import './RecordVideo.css';
 
 const RecordVideo = () => {
   const webcamRef = useRef(null);
-  const [recording, setRecording] = useState(false);
+  const videoRef = useRef(null);
+  const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
 
@@ -20,33 +20,44 @@ const RecordVideo = () => {
       }
     };
 
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(recordedChunks, { type: 'video/webm' });
-      const videoUrl = URL.createObjectURL(blob);
-      // Faça algo com a URL do vídeo, como exibi-la em um player de vídeo
-      console.log('Video URL:', videoUrl);
-    };
+mediaRecorder.onstop = () => {
+  const blob = new Blob(recordedChunks, { type: 'video/webm' });
+  const videoUrl = URL.createObjectURL(blob);
+  // Exibir o vídeo no player de vídeo
+  videoRef.current.src = videoUrl;
+};
+
 
     setMediaRecorder(mediaRecorder);
-    setRecording(true);
+    setIsRecording(true);
     mediaRecorder.start();
   };
 
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
-      setRecording(false);
+      setIsRecording(false);
     }
   };
 
   return (
-    <div>
-      <Webcam ref={webcamRef} />
+    <div className="camera-wrapper">
+      <div className="camera-square">
+        <Webcam ref={webcamRef} />
+      </div>
 
-      {recording ? (
-        <button onClick={stopRecording}>Parar Gravação</button>
+      <div className="video-player">
+        <video ref={videoRef} controls />
+      </div>
+
+      {isRecording ? (
+        <button className="button-stop" onClick={stopRecording}>
+          Parar Gravação
+        </button>
       ) : (
-        <button onClick={startRecording}>Iniciar Gravação</button>
+        <button className="button-start" onClick={startRecording}>
+          Iniciar Gravação
+        </button>
       )}
     </div>
   );

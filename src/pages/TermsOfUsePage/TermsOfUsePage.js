@@ -60,8 +60,8 @@ const TermsOfUsePage = () => {
           Utilização, entre em contato conosco.
         </p>
       </div>
-      <Link to="/login">
-        <button className="button-container">VOLTAR</button>
+      <Link to="/login" className="button-container">
+        VOLTAR
       </Link>
     </div>
   );
