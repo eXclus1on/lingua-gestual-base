@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
-import logo from "../../images/ivling.png";
+//import logo from "../../images/ivling.png";
 import "./RecordVideo.css";
 
 const RecordVideo = () => {
