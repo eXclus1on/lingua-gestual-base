@@ -1,0 +1,39 @@
+.top-logo {
+  padding-top: 150px;
+  display: flex;
+  justify-content: center;
+  margin: 50px;
+}
+
+.logo {
+  width: 250px;
+  height: auto;
+}
+
+.terms-content {
+  text-align: justify;
+  margin-left: 350px;
+  margin-right: 350px;
+  line-height: 2;
+}
+
+.titulo {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.button-container {
+  background-color: #179cdf;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 250px;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 810px;
+  margin-bottom: 50px;
+  margin-top: 30px;
+  text-decoration: none;
+}
