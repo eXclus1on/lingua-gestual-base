@@ -9,6 +9,13 @@ body {
   font-family: "Verdana, Geneva, Tahoma, sans-serif";
 }
 
+.text {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -42,23 +49,34 @@ label {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
   width: 410px;
+  margin-bottom: 20px;
 }
 
 .button-container-login-register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #179cdf;
   color: #fff;
   padding: 10px;
-  border: none;
   border-radius: 25px;
   cursor: pointer;
-  width: 250px;
   font-weight: bold;
   font-size: 15px;
-  margin-left: 80px;
+  text-decoration: none;
+  width: 250px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }
