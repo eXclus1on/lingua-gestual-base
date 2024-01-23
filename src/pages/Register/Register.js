@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../../images/ivling.png";
 import "../../assets/css/Styles.css";
 import Input from "../../components/Input";
+import { Link } from "react-router-dom";
 
 const FORM_INPUTS = [
   { label: "Nome Completo:", id: "username", name: "username", type: "text" },
@@ -36,17 +37,24 @@ const Register = () => {
           {FORM_INPUTS.map((entry, index) => {
             const { label, ...rest } = entry;
             return (
-              <Input {...rest} key={`${index}`}>
-                <br></br>
-                {label}
-                <br></br>
-              </Input>
+              <div key={index}>
+                <label htmlFor={rest.id}>{label}</label>
+                <Input {...rest} />
+              </div>
             );
           })}
-          <br></br>
-          <button className="button-container-login-register" type="submit">
-            SUBMETER
-          </button>
+
+          <div className="button">
+            <Link
+              to="/ivlinginterface"
+              className="button button-container-login-register"
+            >
+              REGISTAR
+            </Link>
+            <Link to="/" className="button button-container-back">
+              VOLTAR
+            </Link>
+          </div>
         </form>
       </div>
     </div>

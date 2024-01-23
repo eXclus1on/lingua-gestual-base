@@ -87,16 +87,11 @@ const Login = () => {
           )}
           <br />
           <div className="button">
-            <Link
-              to="/record"
-              className="button button-container-login-register"
-            >
-              ENTRAR
-            </Link>
+            <Link to="/ivlinginterface" className="button button-container-login-register">ENTRAR</Link>
           </div>
           <div className="text">
             <p>
-              Se não tem conta carregue <Link to="/register">AQUI!</Link>
+              Se não tem conta carregue <Link to="/register"><b>AQUI!</b></Link>
             </p>
           </div>
         </form>

@@ -35,7 +35,6 @@ body {
     width: 450px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
 .form-group {
@@ -60,9 +59,6 @@ input[type="password"] {
 }
 
 .button-container-login-register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #179cdf;
   color: #fff;
   padding: 10px;
@@ -79,4 +75,19 @@ input[type="password"] {
   justify-content: center;
   align-items: center;
   
+}
+
+.button-container-back {
+  color: #179cdf;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid #179cdf;
+  width: 250px;
+  border-radius: 25px;
 }
