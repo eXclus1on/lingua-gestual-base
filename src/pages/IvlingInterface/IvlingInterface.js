@@ -13,7 +13,7 @@ const IvlingInterface = () => {
 
   useEffect(() => {
     const adjustCameraSize = () => {
-      const aspectRatio = 1280 / 1024; // Proporção de aspecto para 1280x1024
+      const aspectRatio = 1280 / 1024;
       const newHeight = Math.floor(videoRef.current.offsetWidth / aspectRatio);
       videoRef.current.style.width = '100%';
       videoRef.current.style.height = `${newHeight}px`;
@@ -71,8 +71,11 @@ const IvlingInterface = () => {
   };
 
   const handleUploadToCloud = () => {
-    // Lógica para carregar vídeo na nuvem
-    // Esta função pode ser implementada conforme necessário
+
+
+
+
+    
   };
 
   return (
