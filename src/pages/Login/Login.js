@@ -9,17 +9,14 @@ const API_BASE_URL = "https://reqres.in/api";
 
 const fakeLogin = async (username, password) => {
   try {
-    // Simulação de chamada à API de login usando Reqres
     const response = await axios.post(`${API_BASE_URL}/login`, {
       email: username, // Reqres usa "email" como identificador
       password,
     });
 
-    // Verifica se o login foi bem-sucedido
     if (response.data.token) {
       return {
         token: response.data.token,
-        // Outras informações do usuário, se disponíveis
       };
     } else {
       throw new Error("Credenciais inválidas");
@@ -40,7 +37,6 @@ const Login = () => {
     password: "",
   });
 
-  // Login Error or Success
   const [loginStatus, setLoginStatus] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -54,7 +50,6 @@ const Login = () => {
       );
       console.log("Login successful!", response);
       setLoginStatus("success");
-      // Lógica para definir o estado de autenticação no seu aplicativo
     } catch (error) {
       console.error("Login failed!", error.message);
       setLoginStatus("error");
