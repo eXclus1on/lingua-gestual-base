@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../images/ivling.png";
-import "../../assets/css/Styles.css";
+import "../../theme/Styles.css";
 import Input from "../../components/Input";
 import { Link } from "react-router-dom";
 

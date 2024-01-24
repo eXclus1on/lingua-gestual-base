@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../images/ivling.png";
-import "../../assets/css/Styles.css";
+import "../../theme/Styles.css";
 import Input from "../../components/Input";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -26,6 +26,11 @@ const fakeLogin = async (username, password) => {
   }
 };
 
+const LOGIN_STATUS = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+};
+
 const FORM_INPUTS = [
   { label: "Email:", id: "email", name: "email", type: "email" },
   { label: "Password:", id: "password", name: "password", type: "password" },
@@ -33,9 +38,13 @@ const FORM_INPUTS = [
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
+
+  useEffect(() => {
+    console.log("credentials", credentials);
+  }, [credentials]);
 
   const [loginStatus, setLoginStatus] = useState(null);
 
@@ -43,16 +52,17 @@ const Login = () => {
     e.preventDefault();
     console.log("Credentials:", credentials);
 
-    try {
-      const response = await fakeLogin(
-        credentials.username,
-        credentials.password
-      );
-      console.log("Login successful!", response);
-      setLoginStatus("success");
-    } catch (error) {
+    const response = await fakeLogin(
+      credentials.username,
+      credentials.password
+    ).catch((error) => {
       console.error("Login failed!", error.message);
-      setLoginStatus("error");
+      setLoginStatus(LOGIN_STATUS.ERROR);
+    });
+
+    if (response) {
+      console.log("Login successful!", response);
+      setLoginStatus(LOGIN_STATUS.SUCCESS);
     }
   };
 
@@ -64,32 +74,54 @@ const Login = () => {
       <div className="wrapper">
         <form onSubmit={handleSubmit}>
           {FORM_INPUTS.map((entry, index) => {
-            const { label, ...rest } = entry;
+            const { label, id, ...rest } = entry;
             return (
               <div key={index}>
-                <label htmlFor={rest.id}>{label}</label>
-                <Input {...rest} />
+                <label htmlFor={id}>{label}</label>
+                <Input
+                  {...rest}
+                  id={id}
+                  onChange={(event) => {
+                    setLoginStatus(null);
+                    setCredentials({
+                      ...credentials,
+                      [id]: event.target.value,
+                    });
+                  }}
+                />
               </div>
             );
           })}
-          {loginStatus === "success" && (
+          {loginStatus === LOGIN_STATUS.SUCCESS && (
             <small className="loginSuccess">Bem vindo!</small>
           )}
-          {loginStatus === "error" && (
+          {loginStatus === LOGIN_STATUS.ERROR && (
             <small className="loginError">
               Os dados não existem ou estão incorretos.
             </small>
           )}
           <br />
           <div className="button">
-            <Link to="/ivlinginterface" className="button button-container-login-register">ENTRAR</Link>
+            <button className="button button-container-login-register">
+              Entrar
+            </button>
           </div>
           <div className="text">
             <p>
-              Se não tem conta carregue <Link to="/register"><b>AQUI!</b></Link>
+              Se não tem conta carregue{" "}
+              <Link to="/register">
+                <b>AQUI!</b>
+              </Link>
             </p>
           </div>
         </form>
+
+        <Link
+          to="/ivlinginterface"
+          className="button button-container-login-register"
+        >
+          Boycott
+        </Link>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './IvlingInterface.css';
+import React, { useState, useRef, useEffect } from "react";
+import "./IvlingInterface.css";
 
 const IvlingInterface = () => {
-  const [word, setWord] = useState('');
+  const [word, setWord] = useState("");
   const [recordCount, setRecordCount] = useState(0);
   const [recordedVideos, setRecordedVideos] = useState([]);
   const [recording, setRecording] = useState(false);
@@ -15,15 +15,15 @@ const IvlingInterface = () => {
     const adjustCameraSize = () => {
       const aspectRatio = 1280 / 1024;
       const newHeight = Math.floor(videoRef.current.offsetWidth / aspectRatio);
-      videoRef.current.style.width = '100%';
+      videoRef.current.style.width = "100%";
       videoRef.current.style.height = `${newHeight}px`;
     };
 
-    window.addEventListener('resize', adjustCameraSize);
+    window.addEventListener("resize", adjustCameraSize);
     adjustCameraSize();
 
     return () => {
-      window.removeEventListener('resize', adjustCameraSize);
+      window.removeEventListener("resize", adjustCameraSize);
     };
   }, []);
 
@@ -49,7 +49,7 @@ const IvlingInterface = () => {
 
       setRecording((prevRecording) => !prevRecording);
     } catch (error) {
-      console.error('Error accessing webcam:', error);
+      console.error("Error accessing webcam:", error);
     }
   };
 
@@ -60,7 +60,7 @@ const IvlingInterface = () => {
   };
 
   const handleStop = () => {
-    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+    const blob = new Blob(recordedChunks, { type: "video/webm" });
     setRecordedVideos([...recordedVideos, URL.createObjectURL(blob)]);
     recordedChunks = [];
     setRecordCount(recordCount + 1);
@@ -70,13 +70,7 @@ const IvlingInterface = () => {
     setRecordedVideos([]);
   };
 
-  const handleUploadToCloud = () => {
-
-
-
-
-    
-  };
+  const handleUploadToCloud = () => {};
 
   return (
     <div className="ivling-interface">
@@ -89,7 +83,7 @@ const IvlingInterface = () => {
           </select>
           <p>Contagem de Gravação: {recordCount}</p>
           <button onClick={toggleRecording}>
-            {recording ? 'Parar Gravação' : 'Gravar'}
+            {recording ? "Parar Gravação" : "Gravar"}
           </button>
           <button>Play</button>
           <button onClick={handleStop}>Aprovar</button>
