@@ -34,7 +34,6 @@ const FORM_INPUTS = [
   },
   {
     id: "email",
-    type: "email",
     label: "Email",
     required: true,
   },

@@ -1,0 +1,56 @@
+.ivling-interface {
+  display: flex;
+}
+
+.left-panel-wrapper, .right-panel-wrapper {
+  padding: 20px;
+}
+
+.white-rectangle {
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.gray-rectangle {
+  background-color: #ccc;
+}
+
+.video-thumbnail {
+  margin-bottom: 10px;
+}
+
+.delete-button, .upload-button {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.upload-button {
+  background-color: #0000ff;
+}
+
+.right-panel-wrapper {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.left-panel-wrapper {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 1280;
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+}
+
