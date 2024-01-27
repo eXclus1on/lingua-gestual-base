@@ -103,7 +103,7 @@ const Login = () => {
           <br />
           <div className="button">
             <button className="button button-container-login-register">
-              Entrar
+              ENTRAR
             </button>
           </div>
           <div className="text">
@@ -115,13 +115,17 @@ const Login = () => {
             </p>
           </div>
         </form>
-
         <Link
           to="/ivlinginterface"
           className="button button-container-login-register"
         >
           Boycott
         </Link>
+      </div>
+      <div className="footer-text">
+        <p>
+          <b>IVling by:</b> Rodolfo Escaleira 2024 | <Link to="/terms">Termos e Condições</Link>
+        </p>
       </div>
     </div>
   );

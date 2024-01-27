@@ -57,6 +57,12 @@ const Register = () => {
           </div>
         </form>
       </div>
+      <div className="footer-text">
+        <p>
+          <b>IVling by:</b> Rodolfo Escaleira 2024 |{" "}
+          <Link to="/terms">Termos e Condições</Link>
+        </p>
+      </div>
     </div>
   );
 };
