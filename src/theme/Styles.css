@@ -5,12 +5,13 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: #f5f7fb !important;
+  background-color: #bde4eb8f !important;
   font-family: "Verdana, Geneva, Tahoma, sans-serif";
 }
 
 .text {
   margin-top: 20px;
+  padding-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,15 +20,17 @@ body {
 .container {
   display: flex;
   justify-content: center;
+  height: 350px;
 }
 
 .logo {
   display: flex;
   justify-content: center;
-  margin: 50px;
+  margin-right: 25px;
+  width: 335px;
 }
 
-.wrapper {
+.wrapper-login {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 20px;
@@ -36,6 +39,18 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.wrapper-register {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  height: 470px;
+  display: flex;
+  flex-direction: column;
+}
+
 
 .form-group {
   display: flex;
@@ -58,7 +73,13 @@ input[type="password"] {
   margin-bottom: 20px;
 }
 
-.button-container-login-register {
+.loginError {
+  color: red;
+  display: flex;
+  justify-content: center;
+}
+
+.button-container-login, .button-container-register {
   background-color: #179cdf;
   color: #fff;
   padding: 10px;
@@ -68,6 +89,7 @@ input[type="password"] {
   font-size: 15px;
   text-decoration: none;
   width: 250px;
+  border: none;
 }
 
 .button {
@@ -76,27 +98,11 @@ input[type="password"] {
   align-items: center;
 }
 
-.button-container-back {
-  color: #179cdf;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  font-weight: bold;
-  border: 1px solid #179cdf;
-  width: 250px;
-  border-radius: 25px;
-}
-
 .footer-text {
   margin: 15px;
   color: #179cdf;
-  font-size: 22px;
+  font-size: 18px;
   cursor: pointer;
-  font-weight: bold;
   position: fixed;
   bottom: 0;
   text-align: center;

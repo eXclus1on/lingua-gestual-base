@@ -1,41 +1,43 @@
-.top-logo {
-  padding-top: 150px;
+.terms-top-logo {
+  padding-top: 250px;
   display: flex;
   justify-content: center;
   margin: 50px;
 }
 
-.logo {
-  width: 250px;
+.logo-terms {
+  width: 350px;
   height: auto;
 }
 
 .terms-content {
   text-align: justify;
-  margin-left: 350px;
-  margin-right: 350px;
+  margin-left: 200px;
+  margin-right: 200px;
   line-height: 2;
 }
 
-.titulo {
+.terms-titulo {
   margin-bottom: 25px;
   text-align: center;
 }
 
-.button-container {
-  margin-left: 810px;
-  margin-bottom: 50px;
-  background-color: #179cdf;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  width: 250px;
-  font-weight: bold;
-  font-size: 15px;
-  margin-top: 30px;
-  text-decoration: none;
+.button-terms {
+  padding-top: 50px;
   display: flex;
   justify-content: center;
+  margin: 50px;
+}
+
+.button-container-back {
+  color: #ffffff;
+  background-color: #179cdf;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 250px;
+  border-radius: 25px;
 }

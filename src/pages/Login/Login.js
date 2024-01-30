@@ -26,6 +26,7 @@ const fakeLogin = async (username, password) => {
   }
 };
 
+
 const LOGIN_STATUS = {
   SUCCESS: "SUCCESS",
   ERROR: "ERROR",
@@ -71,7 +72,7 @@ const Login = () => {
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo" />
       </div>
-      <div className="wrapper">
+      <div className="wrapper-login">
         <form onSubmit={handleSubmit}>
           {FORM_INPUTS.map((entry, index) => {
             const { label, id, ...rest } = entry;
@@ -97,14 +98,12 @@ const Login = () => {
           )}
           {loginStatus === LOGIN_STATUS.ERROR && (
             <small className="loginError">
-              Os dados não existem ou estão incorretos.
+              Os dados não existem ou estão incorretos!
             </small>
           )}
           <br />
           <div className="button">
-            <button className="button button-container-login-register">
-              ENTRAR
-            </button>
+            <button className="button button-container-login">ENTRAR</button>
           </div>
           <div className="text">
             <p>
@@ -119,12 +118,13 @@ const Login = () => {
           to="/ivlinginterface"
           className="button button-container-login-register"
         >
-          Boycott
+          O Botão do Rui!
         </Link>
       </div>
       <div className="footer-text">
         <p>
-          <b>IVling by:</b> Rodolfo Escaleira 2024 | <Link to="/terms">Termos e Condições</Link>
+          <b>IVling by:</b> Rodolfo Escaleira 2024 |{" "}
+          <Link to="/terms">Termos e Condições</Link>
         </p>
       </div>
     </div>
