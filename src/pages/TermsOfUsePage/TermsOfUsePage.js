@@ -1,16 +1,16 @@
 import React from "react";
-import "./TermsOfUsePage.css";
 import logo from "../../images/ivling.png";
 import { Link } from "react-router-dom";
+import "./TermsOfUsePage.css";
 
 const TermsOfUsePage = () => {
   return (
     <div className="terms-container">
-      <div className="top-logo">
-        <img src={logo} alt="Logo" className="logo" />
+      <div className="terms-top-logo">
+        <img src={logo} alt="Logo" className="logo-terms" />
       </div>
       <div className="terms-content">
-        <h2 className="titulo">
+        <h2 className="terms-titulo">
           <b>Termos de Utilização</b>
         </h2>
         <p>
@@ -60,9 +60,11 @@ const TermsOfUsePage = () => {
           Utilização, entre em contato conosco.
         </p>
       </div>
-      <Link to="/" className="button-container">
+      <div className="button-terms">
+      <Link to="/" className="button-container-back">
         VOLTAR
       </Link>
+      </div>
     </div>
   );
 };

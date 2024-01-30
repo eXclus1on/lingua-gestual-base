@@ -32,7 +32,7 @@ const Register = () => {
       <div className="logo-container">
         <img src={logo} alt="Logo" className="logo" />
       </div>
-      <div className="wrapper">
+      <div className="wrapper-register">
         <form onSubmit={handleSubmit}>
           {FORM_INPUTS.map((entry, index) => {
             const { label, ...rest } = entry;
@@ -47,7 +47,7 @@ const Register = () => {
           <div className="button">
             <Link
               to="/ivlinginterface"
-              className="button button-container-login-register"
+              className="button button-container-register"
             >
               REGISTAR
             </Link>
