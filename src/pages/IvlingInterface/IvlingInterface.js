@@ -3,9 +3,9 @@ import AWS from 'aws-sdk';
 import "./IvlingInterface.css";
 
 AWS.config.update({
-  accessKeyId: 'SUA_ACCESS_KEY',
-  secretAccessKey: 'SUA_SECRET_KEY',
-  region: 'SUA_REGIAO',
+  accessKeyId: 'AKIATCKANLG73OHPY6XR',
+  secretAccessKey: '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',
+  region: 'eu-north-1 (Europe (Stockholm))',
 });
 
 const IvlingInterface = () => {
@@ -23,7 +23,7 @@ const IvlingInterface = () => {
     const s3 = new AWS.S3();
 
     const params = {
-      Bucket: 'SEU_BUCKET',
+      Bucket: 'ivling-app',
       Key: fileName,
       Body: videoBlob,
       ACL: 'public-read',
