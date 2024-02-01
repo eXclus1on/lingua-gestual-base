@@ -1,6 +1,4 @@
-// IvlingInterface.js
 import React, { useState, useRef, useEffect } from "react";
-import { useInputManager } from "./useInputManager"; // Certifique-se de que o caminho está correto
 import "./IvlingInterface.css";
 
 const IvlingInterface = () => {
@@ -8,7 +6,6 @@ const IvlingInterface = () => {
   const [recordCount, setRecordCount] = useState(0);
   const [recordedVideos, setRecordedVideos] = useState([]);
   const [recording, setRecording] = useState(false);
-  const [selectedThumbnails, setSelectedThumbnails] = useState([]);
   const videoRef = useRef();
 
   let mediaRecorder;
@@ -73,23 +70,7 @@ const IvlingInterface = () => {
     setRecordedVideos([]);
   };
 
-  const handleThumbnailCheckboxChange = (index) => {
-    setSelectedThumbnails((prevSelected) => {
-      const updatedSelection = [...prevSelected];
-      updatedSelection[index] = !updatedSelection[index];
-      return updatedSelection;
-    });
-  };
-
-  const handleDeleteSelected = () => {
-    const filteredVideos = recordedVideos.filter((_, index) => !selectedThumbnails[index]);
-    setRecordedVideos(filteredVideos);
-    setSelectedThumbnails([]);
-  };
-
-  const handleUploadSelectedToCloud = () => {
-    // Implementar lógica para enviar os vídeos selecionados para a nuvem
-  };
+  const handleUploadToCloud = () => {};
 
   return (
     <div className="ivling-interface">
@@ -101,14 +82,12 @@ const IvlingInterface = () => {
             <option value="word2">Palavra 2</option>
           </select>
           <p>Contagem de Gravação: {recordCount}</p>
-          <div className="buttons-container">
-            <button onClick={toggleRecording}>
-              {recording ? "Parar Gravação" : "Gravar"}
-            </button>
-            <button>Play</button>
-            <button onClick={handleStop}>Aprovar</button>
-            <button onClick={handleDeleteVideo}>Eliminar</button>
-          </div>
+          <button onClick={toggleRecording}>
+            {recording ? "Parar Gravação" : "Gravar"}
+          </button>
+          <button>Play</button>
+          <button onClick={handleStop}>Aprovar</button>
+          <button onClick={handleDeleteVideo}>Eliminar</button>
         </div>
       </div>
       <div className="right-panel-wrapper">
@@ -116,19 +95,14 @@ const IvlingInterface = () => {
           {recordedVideos.map((video, index) => (
             <div key={index} className="video-thumbnail">
               <video src={video} controls width="360" height="270" />
-              <div className="thumbnail-actions">
-                <input
-                  type="checkbox"
-                  checked={selectedThumbnails[index] || false}
-                  onChange={() => handleThumbnailCheckboxChange(index)}
-                />
-                <button onClick={() => handleDeleteSelected(index)}>Eliminar</button>
-                <button onClick={() => handleUploadSelectedToCloud(index)}>
-                  Carregar na Cloud
-                </button>
-              </div>
+              <button className="delete-button" onClick={handleDeleteVideo}>
+                Eliminar
+              </button>
             </div>
           ))}
+          <button className="upload-button" onClick={handleUploadToCloud}>
+            Carregar na Cloud
+          </button>
         </div>
       </div>
     </div>

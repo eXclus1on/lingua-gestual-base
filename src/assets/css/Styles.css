@@ -59,7 +59,7 @@ input[type="password"] {
 }
 
 .button-container-login-register {
-  background-color: #179cdf;
+  background-color: #418ACA;
   color: #fff;
   padding: 10px;
   border-radius: 25px;
@@ -78,7 +78,7 @@ input[type="password"] {
 }
 
 .button-container-back {
-  color: #179cdf;
+  color: #418ACA;
   padding: 10px;
   text-align: center;
   text-decoration: none;
@@ -87,7 +87,7 @@ input[type="password"] {
   margin: 4px 2px;
   cursor: pointer;
   font-weight: bold;
-  border: 1px solid #179cdf;
+  border: 1px solid #418ACA;
   width: 250px;
   border-radius: 25px;
 }
