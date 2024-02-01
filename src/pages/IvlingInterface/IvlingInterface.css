@@ -28,6 +28,12 @@
   cursor: pointer;
 }
 
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+
 .upload-button {
   background-color: #0000ff;
 }

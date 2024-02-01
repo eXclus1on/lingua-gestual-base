@@ -1,3 +1,4 @@
+// IvlingInterface.js
 import React, { useState, useRef, useEffect } from "react";
 import "./IvlingInterface.css";
 
@@ -82,12 +83,14 @@ const IvlingInterface = () => {
             <option value="word2">Palavra 2</option>
           </select>
           <p>Contagem de Gravação: {recordCount}</p>
-          <button onClick={toggleRecording}>
-            {recording ? "Parar Gravação" : "Gravar"}
-          </button>
-          <button>Play</button>
-          <button onClick={handleStop}>Aprovar</button>
-          <button onClick={handleDeleteVideo}>Eliminar</button>
+          <div className="button-container">
+            <button onClick={toggleRecording}>
+              {recording ? "Parar Gravação" : "Gravar"}
+            </button>
+            <button>Play</button>
+            <button onClick={handleStop}>Aprovar</button>
+            <button onClick={handleDeleteVideo}>Eliminar</button>
+          </div>
         </div>
       </div>
       <div className="right-panel-wrapper">
