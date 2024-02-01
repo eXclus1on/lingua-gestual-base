@@ -6,7 +6,7 @@
   padding: 20px;
 }
 
-.white-rectangle {
+.white-rectangle video {
   background-color: #ffffff;
   padding: 10px;
   margin-bottom: 10px;
@@ -26,6 +26,12 @@
   padding: 5px 10px;
   margin-right: 5px;
   cursor: pointer;
+}
+
+.dropdown-and-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .button-container {
@@ -48,6 +54,11 @@
   flex-direction: column;
   align-items: center;
 }
+
+.thumbnail-actions button {
+  margin-right: 5px; /* Ajuste conforme necessário */
+}
+
 
 .left-panel-wrapper {
   background-color: #ffffff;
