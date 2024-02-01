@@ -77,8 +77,8 @@ const Login = () => {
           {FORM_INPUTS.map((entry, index) => {
             const { label, id, ...rest } = entry;
             return (
-              <div key={index}>
-                <label htmlFor={id}>{label}</label>
+              <div className="label" key={index}>
+                <label className="email" htmlFor={id}>{label}</label>
                 <Input
                   {...rest}
                   id={id}
