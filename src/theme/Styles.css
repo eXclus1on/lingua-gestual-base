@@ -80,7 +80,7 @@ input[type="password"] {
 }
 
 .button-container-login, .button-container-register {
-  background-color: #179cdf;
+  background-color: #418ACA;
   color: #fff;
   padding: 10px;
   border-radius: 25px;
@@ -100,7 +100,7 @@ input[type="password"] {
 
 .footer-text {
   margin: 15px;
-  color: #179cdf;
+  color: #418ACA;
   font-size: 18px;
   cursor: pointer;
   position: fixed;
