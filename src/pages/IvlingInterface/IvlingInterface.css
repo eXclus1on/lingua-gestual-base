@@ -6,7 +6,7 @@
   padding: 20px;
 }
 
-.white-rectangle {
+.white-rectangle video {
   background-color: #ffffff;
   padding: 10px;
   margin-bottom: 10px;
@@ -28,6 +28,18 @@
   cursor: pointer;
 }
 
+.dropdown-and-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+
 .upload-button {
   background-color: #0000ff;
 }
@@ -42,6 +54,11 @@
   flex-direction: column;
   align-items: center;
 }
+
+.thumbnail-actions button {
+  margin-right: 5px; /* Ajuste conforme necessário */
+}
+
 
 .left-panel-wrapper {
   background-color: #ffffff;
