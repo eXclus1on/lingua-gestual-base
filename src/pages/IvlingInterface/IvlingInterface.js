@@ -1,11 +1,13 @@
+// src/IvlingInterface.js
 import React, { useState, useRef, useEffect } from "react";
 import AWS from 'aws-sdk';
+import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
 AWS.config.update({
   accessKeyId: 'AKIATCKANLG73OHPY6XR',
   secretAccessKey: '4Rcgi2d/awXLFuNzEA3TDaveKORpi0g8AD5QM+3m',
-  region: 'eu-north-1 (Europe (Stockholm))',
+  region: 'eu-north-1',
 });
 
 const IvlingInterface = () => {
@@ -18,6 +20,29 @@ const IvlingInterface = () => {
 
   let mediaRecorder;
   let recordedChunks = [];
+
+  useEffect(() => {
+    const startCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: 1280,
+            height: 1024,
+          },
+        });
+
+        videoRef.current.srcObject = stream;
+
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.onstop = handleStop;
+      } catch (error) {
+        console.error("Error accessing webcam:", error);
+      }
+    };
+
+    startCamera();
+  }, []);
 
   const uploadToS3 = async (videoBlob, fileName) => {
     const s3 = new AWS.S3();
@@ -127,8 +152,11 @@ const IvlingInterface = () => {
           </div>
           <div className="dropdown-and-buttons">
             <select onChange={(e) => setWord(e.target.value)}>
-              <option value="word1">Palavra 1</option>
-              <option value="word2">Palavra 2</option>
+              {fakeWords.map((fakeWord, index) => (
+                <option key={index} value={fakeWord}>
+                  {fakeWord}
+                </option>
+              ))}
             </select>
             <div className="button-container">
               <button onClick={toggleRecording}>
