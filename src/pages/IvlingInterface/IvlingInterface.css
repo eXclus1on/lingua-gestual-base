@@ -1,8 +1,11 @@
+/* IvlingInterface.css */
+
 .ivling-interface {
   display: flex;
 }
 
-.left-panel-wrapper, .right-panel-wrapper {
+.left-panel-wrapper,
+.right-panel-wrapper {
   padding: 20px;
 }
 
@@ -20,7 +23,8 @@
   margin-bottom: 10px;
 }
 
-.delete-button, .upload-button {
+.delete-button,
+.upload-button {
   background-color: #ff0000;
   color: #fff;
   padding: 5px 10px;
@@ -38,7 +42,6 @@
   display: flex;
   gap: 10px;
 }
-
 
 .upload-button {
   background-color: #0000ff;
@@ -59,15 +62,13 @@
   margin-right: 5px; /* Ajuste conforme necessário */
 }
 
-
 .left-panel-wrapper {
   background-color: #ffffff;
   border-radius: 46px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 1280;
+  width: 1280px; /* Adapte o tamanho conforme necessário */
   display: flex;
   flex-direction: column;
   margin-right: 50px;
 }
-
