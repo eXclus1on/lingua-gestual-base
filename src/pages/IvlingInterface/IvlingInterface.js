@@ -26,8 +26,8 @@ const IvlingInterface = () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
-            width: 1280,
-            height: 1024,
+            width: 720,
+            height: 360,
           },
         });
 
@@ -68,8 +68,8 @@ const IvlingInterface = () => {
       if (!recording) {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
-            width: 1280,
-            height: 1024,
+            width: 720,
+            height: 360,
           },
         });
         videoRef.current.srcObject = stream;
@@ -101,7 +101,6 @@ const IvlingInterface = () => {
     recordedChunks = [];
     setRecordCount(recordCount + 1);
 
-    // Enviar o vídeo para o Amazon S3
     uploadToS3(blob, `video-${recordCount}.webm`);
   };
 
@@ -124,12 +123,11 @@ const IvlingInterface = () => {
   };
 
   const handleUploadSelectedToCloud = () => {
-    // Implementar lógica para enviar os vídeos selecionados para a nuvem
   };
 
   useEffect(() => {
     const adjustCameraSize = () => {
-      const aspectRatio = 1280 / 1024;
+      const aspectRatio = 720 / 360;
       const newHeight = Math.floor(videoRef.current.offsetWidth / aspectRatio);
       videoRef.current.style.width = "100%";
       videoRef.current.style.height = `${newHeight}px`;
