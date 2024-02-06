@@ -1,15 +1,23 @@
-
+// src/IvlingInterface.js
 import React, { useState, useRef, useEffect } from "react";
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone, faStop, faPlay, faTrash, faCloudUploadAlt, faCheck, faTrashAlt, faCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStop,
+  faPlay,
+  faTrash,
+  faCloudUploadAlt,
+  faCheck,
+  faTrashAlt,
+  faCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
 AWS.config.update({
-  accessKeyId: 'AKIATCKANLG73OHPY6XR',
-  secretAccessKey: '4Rcgi2d/awXLFuNzEA3TDaveKORpi0g8AD5QM+3m',
-  region: 'eu-north-1',
+  accessKeyId: "AKIATCKANLG73OHPY6XR",
+  secretAccessKey: "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",
+  region: "eu-north-1",
 });
 
 const IvlingInterface = () => {
@@ -19,6 +27,7 @@ const IvlingInterface = () => {
   const [recording, setRecording] = useState(false);
   const [selectedThumbnails, setSelectedThumbnails] = useState([]);
   const videoRef = useRef();
+  const [wordCounts, setWordCounts] = useState({});
 
   let mediaRecorder;
   let recordedChunks = [];
@@ -50,18 +59,18 @@ const IvlingInterface = () => {
     const s3 = new AWS.S3();
 
     const params = {
-      Bucket: 'ivling-app',
+      Bucket: "ivling-app",
       Key: fileName,
       Body: videoBlob,
-      ACL: 'public-read',
-      ContentType: 'video/webm',
+      ACL: "public-read",
+      ContentType: "video/webm",
     };
 
     try {
       const result = await s3.upload(params).promise();
-      console.log('Vídeo enviado com sucesso:', result.Location);
+      console.log("Vídeo enviado com sucesso:", result.Location);
     } catch (error) {
-      console.error('Erro ao enviar o vídeo:', error);
+      console.error("Erro ao enviar o vídeo:", error);
     }
   };
 
@@ -103,6 +112,13 @@ const IvlingInterface = () => {
     recordedChunks = [];
     setRecordCount(recordCount + 1);
 
+    // Atualizar o contador da palavra
+    setWordCounts((prevWordCounts) => {
+      const updatedCounts = { ...prevWordCounts };
+      updatedCounts[word] = (updatedCounts[word] || 0) + 1;
+      return updatedCounts;
+    });
+
     uploadToS3(blob, `video-${recordCount}.webm`);
   };
 
@@ -119,7 +135,9 @@ const IvlingInterface = () => {
   };
 
   const handleDeleteSelected = () => {
-    const filteredVideos = recordedVideos.filter((_, index) => !selectedThumbnails[index]);
+    const filteredVideos = recordedVideos.filter(
+      (_, index) => !selectedThumbnails[index]
+    );
     setRecordedVideos(filteredVideos);
     setSelectedThumbnails([]);
   };
@@ -148,30 +166,43 @@ const IvlingInterface = () => {
     <div className="ivling-interface">
       <div className="left-panel-wrapper">
         <div className="white-rectangle">
-          <div className="rounded-corners">
+          <div>
             <video ref={videoRef} autoPlay playsInline muted />
           </div>
           <div className="dropdown-and-buttons">
-            <select onChange={(e) => setWord(e.target.value)}>
-              {fakeWords.map((fakeWord, index) => (
-                <option key={index} value={fakeWord}>
-                  {fakeWord}
-                </option>
-              ))}
-            </select>
+          <div className="dropdown-container">
+  <div className="word-count-box">
+    <span className="word-count">({wordCounts[word] || 0})</span>
+  </div>
+  <div className="dropdown">
+    <select className="dropdown-words" onChange={(e) => setWord(e.target.value)}>
+      {fakeWords.map((fakeWord, index) => (
+        <option key={index} value={fakeWord}>
+          {fakeWord}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
             <div className="button-container">
-              <button onClick={toggleRecording}>
+              <button
+                className="ivling-action-buttons"
+                onClick={toggleRecording}
+              >
                 <FontAwesomeIcon icon={recording ? faStop : faCircle} />
-                {recording ? " Parar Gravação" : " Gravar"}
+                {recording ? "" : ""}
               </button>
-              <button>
-                <FontAwesomeIcon icon={faPlay} /> Play
+              <button className="ivling-action-buttons">
+                <FontAwesomeIcon icon={faPlay} />
               </button>
-              <button onClick={handleStop}>
-                <FontAwesomeIcon icon={faCheck} /> Aprovar
+              <button className="ivling-action-buttons" onClick={handleStop}>
+                <FontAwesomeIcon icon={faCheck} />
               </button>
-              <button onClick={handleDeleteVideo}>
-                <FontAwesomeIcon icon={faTrashAlt} /> Eliminar 
+              <button
+                className="ivling-action-buttons"
+                onClick={handleDeleteVideo}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
           </div>
@@ -189,10 +220,10 @@ const IvlingInterface = () => {
                   onChange={() => handleThumbnailCheckboxChange(index)}
                 />
                 <button onClick={() => handleDeleteSelected(index)}>
-                  <FontAwesomeIcon icon={faTrash} /> Eliminar 
+                  <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <button onClick={() => handleUploadSelectedToCloud(index)}>
-                  <FontAwesomeIcon icon={faCloudUploadAlt} /> Carregar na Cloud
+                  <FontAwesomeIcon icon={faCloudUploadAlt} />
                 </button>
               </div>
             </div>
