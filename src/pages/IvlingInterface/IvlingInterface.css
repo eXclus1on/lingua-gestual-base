@@ -34,11 +34,35 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  padding-bottom: 10px;
+  width: 250px;
+}
+
+.dropdown {
+  padding-left: 10px;
+}
+
+.dropdown-words {
+  width: 250px;
+  padding: 5px;
 }
 
 .button-container {
   display: flex;
   gap: 10px;
+  padding-left: 415px;
+}
+
+.ivling-action-buttons {
+  background-color: #418ACA;
+  color: #fff;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+  width: 75px;
+  border: none;
 }
 
 .upload-button {
@@ -57,7 +81,7 @@
 }
 
 .thumbnail-actions button {
-  margin-right: 5px; /* Ajuste conforme necessário */
+  margin-right: 5px;
 }
 
 .left-panel-wrapper {
@@ -65,8 +89,29 @@
   border-radius: 46px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 1280px; /* Adapte o tamanho conforme necessário */
+  width: 1280px;
   display: flex;
   flex-direction: column;
   margin-right: 50px;
+}
+
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  padding-left: 85px;
+}
+
+.word-count-box {
+  background-color: #e9e9ed;
+  padding: 5px;
+  border-radius: 5px;
+  padding-left: 25px;
+  border: 1px solid #A8A8AF;
+}
+
+.word-count {
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }

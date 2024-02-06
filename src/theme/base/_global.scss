@@ -1,0 +1,12 @@
+body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  a {
+    color: $primary-color;
+    text-decoration: none;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+  }
