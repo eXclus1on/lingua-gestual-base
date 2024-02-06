@@ -1,6 +1,8 @@
-// src/IvlingInterface.js
+
 import React, { useState, useRef, useEffect } from "react";
 import AWS from 'aws-sdk';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone, faStop, faPlay, faTrash, faCloudUploadAlt, faCheck, faTrashAlt, faCircle } from "@fortawesome/free-solid-svg-icons";
 import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
@@ -123,6 +125,7 @@ const IvlingInterface = () => {
   };
 
   const handleUploadSelectedToCloud = () => {
+    // Implementar lógica para enviar os vídeos selecionados para a nuvem
   };
 
   useEffect(() => {
@@ -158,11 +161,18 @@ const IvlingInterface = () => {
             </select>
             <div className="button-container">
               <button onClick={toggleRecording}>
-                {recording ? "Parar Gravação" : "Gravar"}
+                <FontAwesomeIcon icon={recording ? faStop : faCircle} />
+                {recording ? " Parar Gravação" : " Gravar"}
               </button>
-              <button>Play</button>
-              <button onClick={handleStop}>Aprovar</button>
-              <button onClick={handleDeleteVideo}>Eliminar</button>
+              <button>
+                <FontAwesomeIcon icon={faPlay} /> Play
+              </button>
+              <button onClick={handleStop}>
+                <FontAwesomeIcon icon={faCheck} /> Aprovar
+              </button>
+              <button onClick={handleDeleteVideo}>
+                <FontAwesomeIcon icon={faTrashAlt} /> Eliminar 
+              </button>
             </div>
           </div>
         </div>
@@ -178,9 +188,11 @@ const IvlingInterface = () => {
                   checked={selectedThumbnails[index] || false}
                   onChange={() => handleThumbnailCheckboxChange(index)}
                 />
-                <button onClick={() => handleDeleteSelected(index)}>Eliminar</button>
+                <button onClick={() => handleDeleteSelected(index)}>
+                  <FontAwesomeIcon icon={faTrash} /> Eliminar 
+                </button>
                 <button onClick={() => handleUploadSelectedToCloud(index)}>
-                  Carregar na Cloud
+                  <FontAwesomeIcon icon={faCloudUploadAlt} /> Carregar na Cloud
                 </button>
               </div>
             </div>
