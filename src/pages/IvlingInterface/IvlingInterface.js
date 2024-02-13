@@ -14,9 +14,9 @@ import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
 AWS.config.update({
-  accessKeyId: "YOUR_ACCESS_KEY",
-  secretAccessKey: "YOUR_SECRET_KEY",
-  region: "eu-north-1",
+  accessKeyId: 'AKIATCKANLG73OHPY6XR',
+  secretAccessKey: '4Rcgi2d/awXLFuNzEA3TDaveKORpi0g8AD5QM+3m',
+  region: 'eu-north-1',
 });
 
 const IvlingInterface = () => {
