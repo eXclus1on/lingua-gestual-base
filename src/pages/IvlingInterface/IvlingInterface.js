@@ -14,8 +14,8 @@ import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
 AWS.config.update({
-  accessKeyId: 'AKIATCKANLG73OHPY6XR',
-  secretAccessKey: '4Rcgi2d/awXLFuNzEA3TDaveKORpi0g8AD5QM+3m',
+  accessKeyId: 'YOUR_ACCESS_KEY',
+  secretAccessKey: 'YOUR_SECRET_KEY',
   region: 'eu-north-1',
 });
 
@@ -64,13 +64,22 @@ const IvlingInterface = () => {
       videoRef.current.style.height = `${newHeight}px`;
     };
 
+    const handleScroll = () => {
+      if (recordedVideos.length > 2) {
+        wrapperRef.current.style.overflowY = "scroll";
+      } else {
+        wrapperRef.current.style.overflowY = "hidden";
+      }
+    };
+
     window.addEventListener("resize", adjustCameraSize);
     adjustCameraSize();
+    handleScroll();
 
     return () => {
       window.removeEventListener("resize", adjustCameraSize);
     };
-  }, []);
+  }, [recordedVideos]);
 
   const uploadToS3 = async (videoBlob, fileName) => {
     const s3 = new AWS.S3();
@@ -93,6 +102,11 @@ const IvlingInterface = () => {
 
   const toggleRecording = async () => {
     try {
+      if (recordedVideos.length >= 2) {
+        alert("Você atingiu o limite de 2 vídeos. Faça o upload dos vídeos existentes antes de gravar mais.");
+        return;
+      }
+
       if (!recording) {
         if (!mediaRecorder) {
           const stream = await navigator.mediaDevices.getUserMedia({
@@ -135,7 +149,9 @@ const IvlingInterface = () => {
     if (!mediaRecorder) return;
 
     const blob = new Blob(recordedChunks, { type: "video/webm" });
-    setRecordedVideos((prevVideos) => [...prevVideos, URL.createObjectURL(blob)]);
+    const newRecordedVideos = [...recordedVideos, URL.createObjectURL(blob)];
+
+    setRecordedVideos(newRecordedVideos);
     setRecordedChunks([]);
     setRecordCount(recordCount + 1);
 
@@ -144,6 +160,10 @@ const IvlingInterface = () => {
       updatedCounts[word] = (updatedCounts[word] || 0) + 1;
       return updatedCounts;
     });
+
+    if (newRecordedVideos.length > 2) {
+      newRecordedVideos.shift(); // Remove o vídeo mais antigo se houver mais de 2
+    }
 
     uploadToS3(blob, `video-${recordCount}.webm`);
   };
@@ -195,14 +215,6 @@ const IvlingInterface = () => {
       console.error("Erro ao enviar o vídeo para a nuvem:", error);
     }
   };
-
-  useEffect(() => {
-    if (recordedVideos.length > 2) {
-      wrapperRef.current.style.overflowY = "scroll";
-    } else {
-      wrapperRef.current.style.overflowY = "hidden";
-    }
-  }, [recordedVideos]);
 
   return (
     <div className="ivling-interface">
@@ -256,7 +268,7 @@ const IvlingInterface = () => {
           </div>
         </div>
       </div>
-      <div className="right-panel-wrapper" ref={wrapperRef} style={{ overflowY: recordedVideos.length > 2 ? 'scroll' : 'hidden' }}>
+      <div className="right-panel-wrapper" ref={wrapperRef}>
         <div className="white-rectangle thumbnails-container">
           {recordedVideos.map((video, index) => (
             <div key={index} className="video-thumbnail">
