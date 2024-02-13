@@ -83,23 +83,22 @@ const IvlingInterface = () => {
           },
         });
         videoRef.current.srcObject = stream;
-  
+
         mediaRecorder = new MediaRecorder(stream);
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.onstop = handleStop;
-  
+
         mediaRecorder.start();
       } else {
         mediaRecorder.stop();
-        await new Promise(resolve => mediaRecorder.onstop = resolve);
+        await new Promise((resolve) => (mediaRecorder.onstop = resolve));
       }
-  
+
       setRecording((prevRecording) => !prevRecording);
     } catch (error) {
       console.error("Error accessing webcam:", error);
     }
   };
-  
 
   const handleDataAvailable = (event) => {
     if (event.data.size > 0) {
@@ -142,8 +141,7 @@ const IvlingInterface = () => {
     setSelectedThumbnails([]);
   };
 
-  const handleUploadSelectedToCloud = () => {
-  };
+  const handleUploadSelectedToCloud = () => {};
 
   useEffect(() => {
     const adjustCameraSize = () => {
@@ -169,20 +167,23 @@ const IvlingInterface = () => {
             <video ref={videoRef} autoPlay playsInline muted />
           </div>
           <div className="dropdown-and-buttons">
-          <div className="dropdown-container">
-  <div className="word-count-box">
-    <span className="word-count">({wordCounts[word] || 0})</span>
-  </div>
-  <div className="dropdown">
-    <select className="dropdown-words" onChange={(e) => setWord(e.target.value)}>
-      {fakeWords.map((fakeWord, index) => (
-        <option key={index} value={fakeWord}>
-          {fakeWord}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
+            <div className="dropdown-container">
+              <div className="word-count-box">
+                <span className="word-count">({wordCounts[word] || 0})</span>
+              </div>
+              <div className="dropdown">
+                <select
+                  className="dropdown-words"
+                  onChange={(e) => setWord(e.target.value)}
+                >
+                  {fakeWords.map((fakeWord, index) => (
+                    <option key={index} value={fakeWord}>
+                      {fakeWord}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <div className="button-container">
               <button
                 className="ivling-action-buttons"
