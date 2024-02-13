@@ -14,8 +14,8 @@ import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
 AWS.config.update({
-  accessKeyId: "AKIATCKANLG73OHPY6XR",
-  secretAccessKey: "4Rcgi2d/awXLFuNzEA3TDaveKORpi0g8AD5QM+3m",
+  accessKeyId: "YOUR_ACCESS_KEY",
+  secretAccessKey: "YOUR_SECRET_KEY",
   region: "eu-north-1",
 });
 
@@ -29,6 +29,7 @@ const IvlingInterface = () => {
   const [wordCounts, setWordCounts] = useState({});
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
+  const wrapperRef = useRef();
 
   useEffect(() => {
     const startCamera = async () => {
@@ -93,7 +94,22 @@ const IvlingInterface = () => {
   const toggleRecording = async () => {
     try {
       if (!recording) {
-        if (!mediaRecorder) return;
+        if (!mediaRecorder) {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: 720,
+              height: 360,
+            },
+          });
+
+          videoRef.current.srcObject = stream;
+
+          const recorder = new MediaRecorder(stream);
+          recorder.ondataavailable = handleDataAvailable;
+          recorder.onstop = handleStop;
+
+          setMediaRecorder(recorder);
+        }
 
         mediaRecorder.start();
       } else {
@@ -116,9 +132,10 @@ const IvlingInterface = () => {
   };
 
   const handleStop = () => {
-    setMediaRecorder(null);
+    if (!mediaRecorder) return;
+
     const blob = new Blob(recordedChunks, { type: "video/webm" });
-    setRecordedVideos([...recordedVideos, URL.createObjectURL(blob)]);
+    setRecordedVideos((prevVideos) => [...prevVideos, URL.createObjectURL(blob)]);
     setRecordedChunks([]);
     setRecordCount(recordCount + 1);
 
@@ -151,9 +168,41 @@ const IvlingInterface = () => {
     setSelectedThumbnails([]);
   };
 
-  const handleUploadSelectedToCloud = () => {
- 
+  const handleUploadSelectedToCloud = async (index) => {
+    const selectedVideo = recordedVideos[index];
+  
+    if (!selectedVideo) {
+      console.error("Selected video not found");
+      return;
+    }
+  
+    const selectedBlob = await fetch(selectedVideo).then((response) => response.blob());
+  
+    const s3 = new AWS.S3();
+  
+    const params = {
+      Bucket: "ivling-app",
+      Key: `uploaded-video-${Date.now()}.webm`,
+      Body: selectedBlob,
+      ACL: "public-read",
+      ContentType: "video/webm",
+    };
+  
+    try {
+      const result = await s3.upload(params).promise();
+      console.log("Vídeo enviado para a nuvem com sucesso:", result.Location);
+    } catch (error) {
+      console.error("Erro ao enviar o vídeo para a nuvem:", error);
+    }
   };
+
+  useEffect(() => {
+    if (recordedVideos.length > 2) {
+      wrapperRef.current.style.overflowY = "scroll";
+    } else {
+      wrapperRef.current.style.overflowY = "hidden";
+    }
+  }, [recordedVideos]);
 
   return (
     <div className="ivling-interface">
@@ -207,7 +256,7 @@ const IvlingInterface = () => {
           </div>
         </div>
       </div>
-      <div className="right-panel-wrapper">
+      <div className="right-panel-wrapper" ref={wrapperRef} style={{ overflowY: recordedVideos.length > 2 ? 'scroll' : 'hidden' }}>
         <div className="white-rectangle thumbnails-container">
           {recordedVideos.map((video, index) => (
             <div key={index} className="video-thumbnail">
