@@ -1,4 +1,3 @@
-// src/IvlingInterface.js
 import React, { useState, useRef, useEffect } from "react";
 import AWS from "aws-sdk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,9 +14,9 @@ import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
 AWS.config.update({
-  accessKeyId: "AKIATCKANLG73OHPY6XR",
-  secretAccessKey: "4Rcgi2d/awXLFuNzEA3TDaveKORpi0g8AD5QM+3m",
-  region: "eu-north-1",
+  accessKeyId: 'YOUR_ACCESS_KEY',
+  secretAccessKey: 'YOUR_SECRET_KEY',
+  region: 'eu-north-1',
 });
 
 const IvlingInterface = () => {
@@ -28,9 +27,9 @@ const IvlingInterface = () => {
   const [selectedThumbnails, setSelectedThumbnails] = useState([]);
   const videoRef = useRef();
   const [wordCounts, setWordCounts] = useState({});
-
-  let mediaRecorder;
-  let recordedChunks = [];
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [recordedChunks, setRecordedChunks] = useState([]);
+  const wrapperRef = useRef();
 
   useEffect(() => {
     const startCamera = async () => {
@@ -44,9 +43,11 @@ const IvlingInterface = () => {
 
         videoRef.current.srcObject = stream;
 
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.onstop = handleStop;
+        const recorder = new MediaRecorder(stream);
+        recorder.ondataavailable = handleDataAvailable;
+        recorder.onstop = handleStop;
+
+        setMediaRecorder(recorder);
       } catch (error) {
         console.error("Error accessing webcam:", error);
       }
@@ -54,6 +55,31 @@ const IvlingInterface = () => {
 
     startCamera();
   }, []);
+
+  useEffect(() => {
+    const adjustCameraSize = () => {
+      const aspectRatio = 720 / 360;
+      const newHeight = Math.floor(videoRef.current.offsetWidth / aspectRatio);
+      videoRef.current.style.width = "100%";
+      videoRef.current.style.height = `${newHeight}px`;
+    };
+
+    const handleScroll = () => {
+      if (recordedVideos.length > 2) {
+        wrapperRef.current.style.overflowY = "scroll";
+      } else {
+        wrapperRef.current.style.overflowY = "hidden";
+      }
+    };
+
+    window.addEventListener("resize", adjustCameraSize);
+    adjustCameraSize();
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("resize", adjustCameraSize);
+    };
+  }, [recordedVideos]);
 
   const uploadToS3 = async (videoBlob, fileName) => {
     const s3 = new AWS.S3();
@@ -76,22 +102,35 @@ const IvlingInterface = () => {
 
   const toggleRecording = async () => {
     try {
-      if (!recording) {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: 720,
-            height: 360,
-          },
-        });
-        videoRef.current.srcObject = stream;
+      if (recordedVideos.length >= 2) {
+        alert("Você atingiu o limite de 2 vídeos. Faça o upload dos vídeos existentes antes de gravar mais.");
+        return;
+      }
 
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.onstop = handleStop;
+      if (!recording) {
+        if (!mediaRecorder) {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: 720,
+              height: 360,
+            },
+          });
+
+          videoRef.current.srcObject = stream;
+
+          const recorder = new MediaRecorder(stream);
+          recorder.ondataavailable = handleDataAvailable;
+          recorder.onstop = handleStop;
+
+          setMediaRecorder(recorder);
+        }
 
         mediaRecorder.start();
       } else {
+        if (!mediaRecorder) return;
+
         mediaRecorder.stop();
+        await new Promise((resolve) => (mediaRecorder.onstop = resolve));
       }
 
       setRecording((prevRecording) => !prevRecording);
@@ -102,22 +141,29 @@ const IvlingInterface = () => {
 
   const handleDataAvailable = (event) => {
     if (event.data.size > 0) {
-      recordedChunks.push(event.data);
+      setRecordedChunks((prevChunks) => [...prevChunks, event.data]);
     }
   };
 
   const handleStop = () => {
+    if (!mediaRecorder) return;
+
     const blob = new Blob(recordedChunks, { type: "video/webm" });
-    setRecordedVideos([...recordedVideos, URL.createObjectURL(blob)]);
-    recordedChunks = [];
+    const newRecordedVideos = [...recordedVideos, URL.createObjectURL(blob)];
+
+    setRecordedVideos(newRecordedVideos);
+    setRecordedChunks([]);
     setRecordCount(recordCount + 1);
 
-    // Atualizar o contador da palavra
     setWordCounts((prevWordCounts) => {
       const updatedCounts = { ...prevWordCounts };
       updatedCounts[word] = (updatedCounts[word] || 0) + 1;
       return updatedCounts;
     });
+
+    if (newRecordedVideos.length > 2) {
+      newRecordedVideos.shift(); // Remove o vídeo mais antigo se houver mais de 2
+    }
 
     uploadToS3(blob, `video-${recordCount}.webm`);
   };
@@ -142,25 +188,33 @@ const IvlingInterface = () => {
     setSelectedThumbnails([]);
   };
 
-  const handleUploadSelectedToCloud = () => {
-    // Implementar lógica para enviar os vídeos selecionados para a nuvem
+  const handleUploadSelectedToCloud = async (index) => {
+    const selectedVideo = recordedVideos[index];
+  
+    if (!selectedVideo) {
+      console.error("Selected video not found");
+      return;
+    }
+  
+    const selectedBlob = await fetch(selectedVideo).then((response) => response.blob());
+  
+    const s3 = new AWS.S3();
+  
+    const params = {
+      Bucket: "ivling-app",
+      Key: `uploaded-video-${Date.now()}.webm`,
+      Body: selectedBlob,
+      ACL: "public-read",
+      ContentType: "video/webm",
+    };
+  
+    try {
+      const result = await s3.upload(params).promise();
+      console.log("Vídeo enviado para a nuvem com sucesso:", result.Location);
+    } catch (error) {
+      console.error("Erro ao enviar o vídeo para a nuvem:", error);
+    }
   };
-
-  useEffect(() => {
-    const adjustCameraSize = () => {
-      const aspectRatio = 720 / 360;
-      const newHeight = Math.floor(videoRef.current.offsetWidth / aspectRatio);
-      videoRef.current.style.width = "100%";
-      videoRef.current.style.height = `${newHeight}px`;
-    };
-
-    window.addEventListener("resize", adjustCameraSize);
-    adjustCameraSize();
-
-    return () => {
-      window.removeEventListener("resize", adjustCameraSize);
-    };
-  }, []);
 
   return (
     <div className="ivling-interface">
@@ -170,20 +224,23 @@ const IvlingInterface = () => {
             <video ref={videoRef} autoPlay playsInline muted />
           </div>
           <div className="dropdown-and-buttons">
-          <div className="dropdown-container">
-  <div className="word-count-box">
-    <span className="word-count">({wordCounts[word] || 0})</span>
-  </div>
-  <div className="dropdown">
-    <select className="dropdown-words" onChange={(e) => setWord(e.target.value)}>
-      {fakeWords.map((fakeWord, index) => (
-        <option key={index} value={fakeWord}>
-          {fakeWord}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
+            <div className="dropdown-container">
+              <div className="word-count-box">
+                <span className="word-count">({wordCounts[word] || 0})</span>
+              </div>
+              <div className="dropdown">
+                <select
+                  className="dropdown-words"
+                  onChange={(e) => setWord(e.target.value)}
+                >
+                  {fakeWords.map((fakeWord, index) => (
+                    <option key={index} value={fakeWord}>
+                      {fakeWord}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <div className="button-container">
               <button
                 className="ivling-action-buttons"
@@ -195,7 +252,10 @@ const IvlingInterface = () => {
               <button className="ivling-action-buttons">
                 <FontAwesomeIcon icon={faPlay} />
               </button>
-              <button className="ivling-action-buttons" onClick={handleStop}>
+              <button
+                className="ivling-action-buttons"
+                onClick={handleStop}
+              >
                 <FontAwesomeIcon icon={faCheck} />
               </button>
               <button
@@ -208,7 +268,7 @@ const IvlingInterface = () => {
           </div>
         </div>
       </div>
-      <div className="right-panel-wrapper">
+      <div className="right-panel-wrapper" ref={wrapperRef}>
         <div className="white-rectangle thumbnails-container">
           {recordedVideos.map((video, index) => (
             <div key={index} className="video-thumbnail">
