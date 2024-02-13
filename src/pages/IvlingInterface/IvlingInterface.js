@@ -27,9 +27,8 @@ const IvlingInterface = () => {
   const [selectedThumbnails, setSelectedThumbnails] = useState([]);
   const videoRef = useRef();
   const [wordCounts, setWordCounts] = useState({});
-
-  let mediaRecorder;
-  let recordedChunks = [];
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [recordedChunks, setRecordedChunks] = useState([]);
 
   useEffect(() => {
     const startCamera = async () => {
@@ -43,15 +42,33 @@ const IvlingInterface = () => {
 
         videoRef.current.srcObject = stream;
 
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.onstop = handleStop;
+        const recorder = new MediaRecorder(stream);
+        recorder.ondataavailable = handleDataAvailable;
+        recorder.onstop = handleStop;
+
+        setMediaRecorder(recorder);
       } catch (error) {
         console.error("Error accessing webcam:", error);
       }
     };
 
     startCamera();
+  }, []);
+
+  useEffect(() => {
+    const adjustCameraSize = () => {
+      const aspectRatio = 720 / 360;
+      const newHeight = Math.floor(videoRef.current.offsetWidth / aspectRatio);
+      videoRef.current.style.width = "100%";
+      videoRef.current.style.height = `${newHeight}px`;
+    };
+
+    window.addEventListener("resize", adjustCameraSize);
+    adjustCameraSize();
+
+    return () => {
+      window.removeEventListener("resize", adjustCameraSize);
+    };
   }, []);
 
   const uploadToS3 = async (videoBlob, fileName) => {
@@ -76,20 +93,12 @@ const IvlingInterface = () => {
   const toggleRecording = async () => {
     try {
       if (!recording) {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: 720,
-            height: 360,
-          },
-        });
-        videoRef.current.srcObject = stream;
-
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = handleDataAvailable;
-        mediaRecorder.onstop = handleStop;
+        if (!mediaRecorder) return;
 
         mediaRecorder.start();
       } else {
+        if (!mediaRecorder) return;
+
         mediaRecorder.stop();
         await new Promise((resolve) => (mediaRecorder.onstop = resolve));
       }
@@ -102,14 +111,15 @@ const IvlingInterface = () => {
 
   const handleDataAvailable = (event) => {
     if (event.data.size > 0) {
-      recordedChunks.push(event.data);
+      setRecordedChunks((prevChunks) => [...prevChunks, event.data]);
     }
   };
 
   const handleStop = () => {
+    setMediaRecorder(null);
     const blob = new Blob(recordedChunks, { type: "video/webm" });
     setRecordedVideos([...recordedVideos, URL.createObjectURL(blob)]);
-    recordedChunks = [];
+    setRecordedChunks([]);
     setRecordCount(recordCount + 1);
 
     setWordCounts((prevWordCounts) => {
@@ -141,23 +151,9 @@ const IvlingInterface = () => {
     setSelectedThumbnails([]);
   };
 
-  const handleUploadSelectedToCloud = () => {};
-
-  useEffect(() => {
-    const adjustCameraSize = () => {
-      const aspectRatio = 720 / 360;
-      const newHeight = Math.floor(videoRef.current.offsetWidth / aspectRatio);
-      videoRef.current.style.width = "100%";
-      videoRef.current.style.height = `${newHeight}px`;
-    };
-
-    window.addEventListener("resize", adjustCameraSize);
-    adjustCameraSize();
-
-    return () => {
-      window.removeEventListener("resize", adjustCameraSize);
-    };
-  }, []);
+  const handleUploadSelectedToCloud = () => {
+ 
+  };
 
   return (
     <div className="ivling-interface">
@@ -195,7 +191,10 @@ const IvlingInterface = () => {
               <button className="ivling-action-buttons">
                 <FontAwesomeIcon icon={faPlay} />
               </button>
-              <button className="ivling-action-buttons" onClick={handleStop}>
+              <button
+                className="ivling-action-buttons"
+                onClick={handleStop}
+              >
                 <FontAwesomeIcon icon={faCheck} />
               </button>
               <button
