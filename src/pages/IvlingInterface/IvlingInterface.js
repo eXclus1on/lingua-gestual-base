@@ -1,4 +1,3 @@
-// src/IvlingInterface.js
 import React, { useState, useRef, useEffect } from "react";
 import AWS from "aws-sdk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -84,21 +83,23 @@ const IvlingInterface = () => {
           },
         });
         videoRef.current.srcObject = stream;
-
+  
         mediaRecorder = new MediaRecorder(stream);
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.onstop = handleStop;
-
+  
         mediaRecorder.start();
       } else {
         mediaRecorder.stop();
+        await new Promise(resolve => mediaRecorder.onstop = resolve);
       }
-
+  
       setRecording((prevRecording) => !prevRecording);
     } catch (error) {
       console.error("Error accessing webcam:", error);
     }
   };
+  
 
   const handleDataAvailable = (event) => {
     if (event.data.size > 0) {
@@ -112,7 +113,6 @@ const IvlingInterface = () => {
     recordedChunks = [];
     setRecordCount(recordCount + 1);
 
-    // Atualizar o contador da palavra
     setWordCounts((prevWordCounts) => {
       const updatedCounts = { ...prevWordCounts };
       updatedCounts[word] = (updatedCounts[word] || 0) + 1;
@@ -143,7 +143,6 @@ const IvlingInterface = () => {
   };
 
   const handleUploadSelectedToCloud = () => {
-    // Implementar lógica para enviar os vídeos selecionados para a nuvem
   };
 
   useEffect(() => {
