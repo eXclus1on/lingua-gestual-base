@@ -14,11 +14,10 @@ import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
 AWS.config.update({
-  accessKeyId: 'YOUR_ACCESS_KEY',
-  secretAccessKey: 'YOUR_SECRET_KEY',
+  accessKeyId: 'AKIATCKANLG73OHPY6XR',
+  secretAccessKey: '4Rcgi2d/awXLFuNzEA3TDaveKORpi0g8AD5QM+3m',
   region: 'eu-north-1',
 });
-
 const IvlingInterface = () => {
   const [word, setWord] = useState("");
   const [recordCount, setRecordCount] = useState(0);
