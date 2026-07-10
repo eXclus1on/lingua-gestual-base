@@ -285,7 +285,8 @@ const IvlingInterface = () => {
               </button>
             </div>
           </div>
-        </div>
+              {uploadNotice && <p className="upload-notice">{uploadNotice}</p>}
+    </div>
       </div>
       <div className="right-panel-wrapper" ref={wrapperRef}>
         <div className="white-rectangle thumbnails-container">
