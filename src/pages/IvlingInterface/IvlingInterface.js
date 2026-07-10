@@ -22,6 +22,7 @@ const IvlingInterface = () => {
   const [wordCounts, setWordCounts] = useState({});
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
+  const [uploadNotice, setUploadNotice] = useState("");
   const wrapperRef = useRef();
 
   useEffect(() => {
@@ -101,7 +102,8 @@ const IvlingInterface = () => {
       console.log("Vídeo enviado com sucesso.");
     } catch (error) {
       console.error("Erro ao enviar o vídeo:", error);
-    }
+         setUploadNotice("O envio para a cloud ainda nao esta disponivel nesta demonstracao. Funcionalidade planeada, mas por implementar.");
+ }
   };
 
   const toggleRecording = async () => {
@@ -229,7 +231,8 @@ const IvlingInterface = () => {
       console.log("Vídeo enviado para a nuvem com sucesso.");
     } catch (error) {
       console.error("Erro ao enviar o vídeo para a nuvem:", error);
-    }
+         setUploadNotice("O envio para a cloud ainda nao esta disponivel nesta demonstracao. Funcionalidade planeada, mas por implementar.");
+ }
   };
 
   return (

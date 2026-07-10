@@ -13,7 +13,14 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { fileName, fileType } = req.body;
+       if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+      return res.status(501).json({
+        error: 'not_configured',
+        message: 'O upload para a cloud ainda nao esta configurado nesta demonstracao.',
+      });
+    }
+
+ const { fileName, fileType } = req.body;
 
     if (!fileName || !fileType) {
       return res.status(400).json({ error: 'fileName and fileType are required' });
