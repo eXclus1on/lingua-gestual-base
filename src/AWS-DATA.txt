@@ -1,5 +1,0 @@
-AWS.config.update({
-  accessKeyId:
-  secretAccessKey:
-  region: 'eu-north-1',
-});

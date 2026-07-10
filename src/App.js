@@ -6,7 +6,6 @@ import Login from "./pages/Login/Login";
 import IvlingInterface from "./pages/IvlingInterface/IvlingInterface";
 
 function App() {
-  console.log("I'm here: AVB 2024");
   return (
     <Router>
       <div className="App">

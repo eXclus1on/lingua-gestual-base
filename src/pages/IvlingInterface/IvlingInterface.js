@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import AWS from "aws-sdk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStop,
@@ -13,11 +12,6 @@ import {
 import fakeWords from "./fakeData";
 import "./IvlingInterface.css";
 
-AWS.config.update({
-  accessKeyId: '',
-  secretAccessKey: '',
-  region: 'eu-north-1',
-});
 const IvlingInterface = () => {
   const [word, setWord] = useState("");
   const [recordCount, setRecordCount] = useState(0);
@@ -81,19 +75,30 @@ const IvlingInterface = () => {
   }, [recordedVideos]);
 
   const uploadToS3 = async (videoBlob, fileName) => {
-    const s3 = new AWS.S3();
-
-    const params = {
-      Bucket: "ivling-app",
-      Key: fileName,
-      Body: videoBlob,
-      ACL: "public-read",
-      ContentType: "video/webm",
-    };
-
     try {
-      const result = await s3.upload(params).promise();
-      console.log("Vídeo enviado com sucesso:", result.Location);
+      const response = await fetch("/api/get-upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileName, fileType: "video/webm" }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Não foi possível obter o URL de upload.");
+      }
+
+      const { uploadUrl } = await response.json();
+
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "PUT",
+        headers: { "Content-Type": "video/webm" },
+        body: videoBlob,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error("Falha ao enviar o vídeo para o S3.");
+      }
+
+      console.log("Vídeo enviado com sucesso.");
     } catch (error) {
       console.error("Erro ao enviar o vídeo:", error);
     }
@@ -189,27 +194,39 @@ const IvlingInterface = () => {
 
   const handleUploadSelectedToCloud = async (index) => {
     const selectedVideo = recordedVideos[index];
-  
+
     if (!selectedVideo) {
       console.error("Selected video not found");
       return;
     }
-  
+
     const selectedBlob = await fetch(selectedVideo).then((response) => response.blob());
-  
-    const s3 = new AWS.S3();
-  
-    const params = {
-      Bucket: "ivling-app",
-      Key: `uploaded-video-${Date.now()}.webm`,
-      Body: selectedBlob,
-      ACL: "public-read",
-      ContentType: "video/webm",
-    };
-  
+    const fileName = `uploaded-video-${Date.now()}.webm`;
+
     try {
-      const result = await s3.upload(params).promise();
-      console.log("Vídeo enviado para a nuvem com sucesso:", result.Location);
+      const response = await fetch("/api/get-upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileName, fileType: "video/webm" }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Não foi possível obter o URL de upload.");
+      }
+
+      const { uploadUrl } = await response.json();
+
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "PUT",
+        headers: { "Content-Type": "video/webm" },
+        body: selectedBlob,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error("Falha ao enviar o vídeo para o S3.");
+      }
+
+      console.log("Vídeo enviado para a nuvem com sucesso.");
     } catch (error) {
       console.error("Erro ao enviar o vídeo para a nuvem:", error);
     }

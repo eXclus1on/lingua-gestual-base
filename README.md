@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# IVLinG
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## O que é isto
 
-## Available Scripts
+IVLinG é o início de uma plataforma conceptual de interpretação de Língua Gestual Portuguesa. Este repositório contém a peça que já está construída: uma ferramenta de recolha de dados.
 
-In the project directory, you can run:
+## O que esta app faz (e o que não faz)
 
-### `npm start`
+- Grava clips de vídeo da webcam do utilizador
+- O utilizador escolhe manualmente, de uma lista fixa, a palavra que está a gesticular
+- Envia o vídeo etiquetado para um bucket S3, para futuramente construir um dataset
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Não** faz reconhecimento automático de gestos nem usa IA para identificar o que está a ser gesticulado — a etiquetagem é sempre manual, feita pela pessoa que grava.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Stack
 
-### `npm test`
+React (Create React App) + AWS S3 (upload via URLs assinados, gerados por uma função serverless em `/api`, sem credenciais expostas no frontend).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Desenvolvimento local
 
-### `npm run build`
+```
+npm install
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Abre [http://localhost:3000](http://localhost:3000) no browser.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Variáveis de ambiente
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+O endpoint `/api/get-upload-url` precisa destas variáveis de ambiente do lado do servidor (nunca no frontend):
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION`
+- `AWS_S3_BUCKET`
