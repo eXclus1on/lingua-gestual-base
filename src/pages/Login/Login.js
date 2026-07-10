@@ -1,29 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import logo from "../../images/ivling.png";
 import "../../theme/Styles.css";
 import Input from "../../components/Input";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "https://reqres.in/api";
 
 const fakeLogin = async (username, password) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/login`, {
-      email: username, // Reqres usa "email" como identificador
-      password,
-    });
-
-    if (response.data.token) {
-      return {
-        token: response.data.token,
-      };
-    } else {
-      throw new Error("Credenciais inválidas");
-    }
-  } catch (error) {
-    throw new Error("Erro ao autenticar o usuário");
+  if (!username || !password) {
+    throw new Error("Preenche o email e a password.");
   }
+
+  // Login local simulado — esta app não tem autenticação real nem base de dados de utilizadores.
+  return {
+    token: "local-demo-token",
+  };
 };
 
 
@@ -37,24 +27,21 @@ const FORM_INPUTS = [
   { label: "Password:", id: "password", name: "password", type: "password" },
 ];
 
-const Login = () => {
+  
+  const Login = () => {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
 
-  useEffect(() => {
-    console.log("credentials", credentials);
-  }, [credentials]);
-
-  const [loginStatus, setLoginStatus] = useState(null);
+ const [loginStatus, setLoginStatus] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Credentials:", credentials);
-
+    
     const response = await fakeLogin(
-      credentials.username,
+      credentials.email,
       credentials.password
     ).catch((error) => {
       console.error("Login failed!", error.message);
@@ -64,6 +51,7 @@ const Login = () => {
     if (response) {
       console.log("Login successful!", response);
       setLoginStatus(LOGIN_STATUS.SUCCESS);
+      navigate("/ivlingInterface");
     }
   };
 
@@ -114,12 +102,6 @@ const Login = () => {
             </p>
           </div>
         </form>
-        <Link
-          to="/ivlinginterface"
-          className="button button-container-login-register"
-        >
-          O Botão do Rui!
-        </Link>
       </div>
       <div className="footer-text">
         <p>
